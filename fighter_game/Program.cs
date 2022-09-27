@@ -57,7 +57,7 @@ while (enemy_hp > 0 && my_hp > 0) {
         enemy_hp -= 3;
     }
 
-    int my_pain = random.Next(0, 3);
+    int my_pain = random.Next(0, 4);
     if (my_pain == 0) {
         Console.WriteLine("Din fiende missade och högg i marken!");
         Console.WriteLine("Du tog ingen skada.");
@@ -70,14 +70,19 @@ while (enemy_hp > 0 && my_hp > 0) {
     } else if (my_pain == 3) {
         Console.WriteLine("Din fiende tog sin kniv och högg dig i armen");
         Console.WriteLine("Du tappade 3 hp.");
+    } else if (my_pain == 4) {
+        Console.WriteLine("Din fiende tog en yxa och högg dig i magen");
+        Console.WriteLine("Du tappade 5 hp.");
     }
     my_hp -= my_pain;
 }
 
-if (enemy_hp <= 0) {
+if (enemy_hp <= 0 && my_hp > 0) {
     Console.WriteLine("Du vann mot din fiende!");
-} else if (my_hp <= 0) {
+} else if (my_hp <= 0 && enemy_hp > 0) {
     Console.WriteLine("Du föll ihop på marken och förblödde plågsamt. Du förlorade.");
+} else {
+    Console.WriteLine("Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning emellan er när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu...");
 }
 
 
