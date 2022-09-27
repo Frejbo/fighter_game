@@ -42,6 +42,14 @@ while (enemy_hp > 0 && my_hp > 0) {
             Console.WriteLine("Attans! Din fiende tog fram sin sköld och dämpade ditt slag. Varken du eller din fiende gjorde någon skada.");
             continue;
         }
+    } else if (my_chosen_weapon == 3) {
+        Console.WriteLine("Vem fan fightas med en hammare? Din fiende blev förvirrad och tappade sitt vapen. Du drog ett hårt slag och din fiende tappade 2 hp.");
+        Console.WriteLine("Din fiende gjorde ingen skada på dig.");
+        enemy_hp -= 2;
+        continue;
+    } else if (my_chosen_weapon == 4) {
+        Console.WriteLine("Du tog fram din kniv och högg din fiende i benet. Din fiende tappade 3 hp.");
+        enemy_hp -= 3;
     }
 
     int my_pain = random.Next(0, 5);
