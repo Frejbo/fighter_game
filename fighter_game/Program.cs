@@ -50,7 +50,7 @@ while (enemy_hp > 0 && my_hp > 0) {
             decrease_enemy_hp(3);
         }
     } else if (my_chosen_weapon == 3) {
-        int hammer_hurt_rate = random.Next(0, 1);
+        int hammer_hurt_rate = random.Next(0, 3);
         if (hammer_hurt_rate == 0) {
             Console.WriteLine($"Vem fan fightas med en hammare? {enemy_name} blev förvirrad och tappade sitt vapen. Du drog ett hårt slag.");
             Console.WriteLine($"{enemy_name} gjorde ingen skada på dig.");
@@ -72,7 +72,7 @@ while (enemy_hp > 0 && my_hp > 0) {
         }
     }
 
-    int my_pain_rate = random.Next(0, 5);
+    int my_pain_rate = random.Next(0, 11);
     if (my_pain_rate == 0) {
         Console.WriteLine($"{enemy_name} missade och högg i marken!");
         Console.WriteLine("Du tog ingen skada.");
@@ -82,15 +82,21 @@ while (enemy_hp > 0 && my_hp > 0) {
     } else if (my_pain_rate == 2) {
         Console.WriteLine($"{enemy_name} slog dig i ansiktet med knytnäven");
         decrease_my_hp(2);
-    } else if (my_pain_rate == 3) {
+    } else if (my_pain_rate < 5) {
         Console.WriteLine($"{enemy_name} tog sin kniv och högg dig i armen");
         decrease_my_hp(3);
-    } else if (my_pain_rate == 4) {
+    } else if (my_pain_rate <= 7) {
         Console.WriteLine($"{enemy_name} tog en yxa och högg dig i magen");
         decrease_my_hp(5);
-    } else if (my_pain_rate == 5) {
+    } else if (my_pain_rate == 8) {
         Console.WriteLine($"{enemy_name} tog fram sin hårtork och blåste dig i ansiktet tills du fick ett brännmärke och ramlade omkull.");
         decrease_my_hp(5);
+    } else if (my_pain_rate <= 10) {
+        System.Console.WriteLine($"{enemy_name} brottade ner dig på marken och högg dig med en smörkniv.");
+        decrease_enemy_hp(3);
+    } else if (my_pain_rate == 11) {
+        System.Console.WriteLine($"{enemy_name} lekte sur tant och slog till dig med sin handväska.");
+        decrease_enemy_hp(1);
     }
 }
 
