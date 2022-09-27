@@ -34,34 +34,42 @@ while (enemy_hp > 0 && my_hp > 0) {
 
     if (my_chosen_weapon == 1) {
         Console.WriteLine($"Du slog till {enemy_name} lite patetiskt på kinden med höger knytnäve och {enemy_name} tappade 1 hp.");
-        enemy_hp -= 1;
+        decrease_enemy_hp(1);
     } else if (my_chosen_weapon == 2) {
         int axe_hurt_rate = random.Next(0, 5);
         if (axe_hurt_rate == 0) {
             Console.WriteLine($"Du missade! {enemy_name} tog 0 i skada.");
         } else if (axe_hurt_rate == 4) {
             Console.WriteLine($"Du drog ett skitbra drag och träffade {enemy_name}'s hals, hen tappade 5 hp!");
-            enemy_hp -= 5;
+            decrease_enemy_hp(5);
         } else if (axe_hurt_rate == 5) {
             Console.WriteLine($"Attans! {enemy_name} tog fram sin sköld och dämpade ditt slag. Varken du eller {enemy_name} gjorde någon skada.");
             continue;
         } else {
             Console.WriteLine($"Du högg {enemy_name} i armen och hen tappade 3 hp.");
-            enemy_hp -= 3;
+            decrease_enemy_hp(3);
         }
     } else if (my_chosen_weapon == 3) {
         int hammer_hurt_rate = random.Next(0, 1);
         if (hammer_hurt_rate == 0) {
             Console.WriteLine($"Vem fan fightas med en hammare? {enemy_name} blev förvirrad och tappade sitt vapen. Du drog ett hårt slag och {enemy_name} tappade 2 hp.");
             Console.WriteLine($"{enemy_name} gjorde ingen skada på dig.");
-            enemy_hp -= 2;
+            decrease_enemy_hp(2);
             continue;
         } else {
             Console.WriteLine($"Du slog {enemy_name} i magen med hammaren, desvärre var {enemy_name} väldigt fet och hens mage dämpade slaget. {enemy_name} tappade endast 1 hp.");
         }
     } else if (my_chosen_weapon == 4) {
-        Console.WriteLine($"Du tog fram din kniv och högg {enemy_name} i benet. Hen tappade 3 hp.");
-        enemy_hp -= 3;
+        int kniv_hurt_rate = random.Next(0, 1);
+        if (kniv_hurt_rate == 1) {
+            Console.WriteLine($"Du tog fram din kniv och högg {enemy_name} i benet. Hen tappade 3 hp.");
+            decrease_enemy_hp(3);
+        } else if (kniv_hurt_rate == 1) {
+            Console.WriteLine($"Du skulle precis ta upp kniven för att slå {enemy_name}, men du slank och skar dig själv istället!");
+            Console.ForegroundColor = ConsoleColor.Red;
+            my_hp -= 2;
+            Console.ResetColor();
+        }
     }
 
     int my_pain = random.Next(0, 4);
@@ -81,7 +89,9 @@ while (enemy_hp > 0 && my_hp > 0) {
         Console.WriteLine($"{enemy_name} tog en yxa och högg dig i magen");
         Console.WriteLine("Du tappade 5 hp.");
     }
+    Console.ForegroundColor = ConsoleColor.Red;
     my_hp -= my_pain;
+    Console.ResetColor();
 }
 
 if (enemy_hp <= 0 && my_hp > 0) {
@@ -90,6 +100,14 @@ if (enemy_hp <= 0 && my_hp > 0) {
     Console.WriteLine($"Du föll ihop på marken och förblödde plågsamt. {enemy_name} vann.");
 } else {
     Console.WriteLine("Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning emellan er när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu...");
+}
+
+
+void decrease_enemy_hp(int amount) {
+    enemy_hp -= amount;
+    Console.ForegroundColor = ConsoleColor.Green;
+    System.Console.WriteLine($"{enemy_name} tappade {amount} hp.");
+    Console.ResetColor();
 }
 
 
