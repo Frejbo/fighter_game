@@ -72,26 +72,26 @@ while (enemy_hp > 0 && my_hp > 0) {
         }
     }
 
-    int my_pain = random.Next(0, 4);
-    if (my_pain == 0) {
+    int my_pain_rate = random.Next(0, 5);
+    if (my_pain_rate == 0) {
         Console.WriteLine($"{enemy_name} missade och högg i marken!");
         Console.WriteLine("Du tog ingen skada.");
-    } else if (my_pain == 1) {
+    } else if (my_pain_rate == 1) {
         Console.WriteLine($"{enemy_name} sträckte sig efter sin kniv men råkade ta fel och fick bara upp ett rakblad!");
         decrease_my_hp(1);
-    } else if (my_pain == 2) {
+    } else if (my_pain_rate == 2) {
         Console.WriteLine($"{enemy_name} slog dig i ansiktet med knytnäven");
         decrease_my_hp(2);
-    } else if (my_pain == 3) {
+    } else if (my_pain_rate == 3) {
         Console.WriteLine($"{enemy_name} tog sin kniv och högg dig i armen");
         decrease_my_hp(3);
-    } else if (my_pain == 4) {
+    } else if (my_pain_rate == 4) {
         Console.WriteLine($"{enemy_name} tog en yxa och högg dig i magen");
         decrease_my_hp(5);
+    } else if (my_pain_rate == 5) {
+        Console.WriteLine($"{enemy_name} tog fram sin hårtork och blåste dig i ansiktet tills du fick ett brännmärke och ramlade omkull.");
+        decrease_my_hp(5);
     }
-    Console.ForegroundColor = ConsoleColor.Red;
-    my_hp -= my_pain;
-    Console.ResetColor();
 }
 
 if (enemy_hp <= 0 && my_hp > 0) {
@@ -99,7 +99,7 @@ if (enemy_hp <= 0 && my_hp > 0) {
 } else if (my_hp <= 0 && enemy_hp > 0) {
     Console.WriteLine($"Du föll ihop på marken och förblödde plågsamt. {enemy_name} vann.");
 } else {
-    Console.WriteLine("Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning emellan er när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu...");
+    Console.WriteLine($"Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning mellan dig och {enemy_name} när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu... Du kollade {enemy_name} i ögonen medan hen tog sitt sista andetag. Det var bara en tidsfråga tills samma sak skulle hända dig... när som helst nu...");
 }
 
 void decrease_my_hp(int amount) {
