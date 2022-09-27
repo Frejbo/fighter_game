@@ -3,16 +3,18 @@ int my_hp = 30;
 
 Console.WriteLine("Vad heter din fiende?");
 string enemy_name = Console.ReadLine();
-while (enemy_name.Length < 2 && enemy_name.Length <= 20) {
-    Console.WriteLine($"Din fiendes namn måste vara mellan 2 - 20 tecken, men ditt valda namn var {enemy_name.Length}. Försök igen:");
+while (enemy_name.Length < 2 || enemy_name.Length >= 20) {
+    Console.WriteLine($"Din fiendes namn måste vara mellan 2 - 20 tecken, men ditt valda namn var {enemy_name.Length}.\nFörsök igen:");
     enemy_name = Console.ReadLine();
 }
 
 Random random = new Random();
 
 while (enemy_hp > 0 && my_hp > 0) {
+    Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine($"\nDu har {my_hp} hp.");
     Console.WriteLine($"{enemy_name} har {enemy_hp} hp.");
+    Console.ResetColor();
     Console.ReadLine();
     
     Console.WriteLine("Välj ditt vapen:");
