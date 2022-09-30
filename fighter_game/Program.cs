@@ -1,5 +1,6 @@
 ﻿int enemy_hp = 30;
 int my_hp = 30;
+bool boosted_attack = false;
 
 Console.WriteLine("Vad heter din fiende?");
 string enemy_name = Console.ReadLine();
@@ -21,13 +22,13 @@ while (enemy_hp > 0 && my_hp > 0) {
     Console.WriteLine("Välj ditt vapen:");
     int my_chosen_weapon = 0;
     while (my_chosen_weapon == 0) {
-        Console.WriteLine("1. Knytnäve\n2. Yxa\n3. Hammare\n4. Kniv");
+        Console.WriteLine("1. Knytnäve\n2. Yxa\n3. Hammare\n4. Kniv\n5. Hink med vatten");
         string temp_chosen = Console.ReadLine();
         
         if (!int.TryParse(temp_chosen, out int number)) {
-            Console.WriteLine("Du måste skriva en siffra mellan 1 - 4.\n");
+            Console.WriteLine("Du måste skriva en siffra mellan 1 - 5.\n");
             continue;
-        } else if (!(number <= 4 && number > 0)) {
+        } else if (!(number <= 5 && number > 0)) {
             Console.WriteLine("Ditt svar var utanför de möjliga alternativen.\n");
             continue;
         } else {
@@ -61,7 +62,13 @@ while (enemy_hp > 0 && my_hp > 0) {
             Console.WriteLine($"{enemy_name} gjorde ingen skada på dig.");
             decrease_enemy_hp(2);
             continue;
-        } else {
+        } else if (hammer_hurt_rate == 1) {
+            Console.WriteLine($"Du slog {enemy_name} på lilltån och hen ramlade omkull och tappade sitt vapen. Dessvärre flög hans yxa mot dig och träffade dig i ansiktet.");
+            decrease_my_hp(4);
+            decrease_enemy_hp(3);
+            continue;
+        } 
+        else {
             Console.WriteLine($"Du slog {enemy_name} i magen med hammaren, desvärre var {enemy_name} väldigt fet och hens mage dämpade slaget.");
         }
     } else if (my_chosen_weapon == 4) {
@@ -74,6 +81,14 @@ while (enemy_hp > 0 && my_hp > 0) {
             Console.ForegroundColor = ConsoleColor.Red;
             my_hp -= 2;
             Console.ResetColor();
+        }
+    } else if (my_chosen_weapon == 5) {
+        if (random.Next(0, 2) == 0) {
+            Console.WriteLine($"Du friskade upp {enemy_name} med en hink kallvatten. {enemy_name} gjorde 1 extra skada på dig.");
+            boosted_attack = true;
+        } else {
+            Console.WriteLine($"Du hällde kallt vatten över {enemy_name} så hen fick en kallsup.");
+            decrease_enemy_hp(2);
         }
     }
 
@@ -121,6 +136,10 @@ void decrease_my_hp(int amount) {
 }
 
 void decrease_enemy_hp(int amount) {
+    if (boosted_attack) {
+        amount += 1;
+        boosted_attack = false;
+    }
     enemy_hp -= amount;
     Console.ForegroundColor = ConsoleColor.Green;
     System.Console.WriteLine($"{enemy_name} tappade {amount} hp.");
