@@ -2,6 +2,8 @@
 int my_hp = 30;
 bool boosted_attack = false;
 Random random = new Random();
+List<string> body_harm = new List<string>();
+
 
 namnge:
 Console.WriteLine("Vad heter din fiende?");
@@ -65,6 +67,7 @@ while (true) {
             Console.WriteLine($"Du slog {enemy_name} på lilltån och hen ramlade omkull och tappade sitt vapen. Dessvärre flög hens yxa mot dig och träffade dig i ansiktet.");
             decrease_my_hp(4);
             decrease_enemy_hp(3);
+            body_harm.Add("ansikte - yxa");
             continue;
         } 
         else {
@@ -93,7 +96,7 @@ while (true) {
 
     load_delay();
 
-    int my_pain_rate = random.Next(0, 12);
+    int my_pain_rate = random.Next(12, 13);
     if (my_pain_rate == 0) {
         Console.WriteLine($"{enemy_name} missade och högg i marken!");
         Console.WriteLine("Du tog ingen skada.");
@@ -106,18 +109,54 @@ while (true) {
     } else if (my_pain_rate < 5) {
         Console.WriteLine($"{enemy_name} tog sin kniv och högg dig i armen");
         decrease_my_hp(3);
+        body_harm.Add("arm");
     } else if (my_pain_rate <= 7) {
         Console.WriteLine($"{enemy_name} tog en yxa och högg dig i magen");
         decrease_my_hp(5);
+        body_harm.Add("mage");
     } else if (my_pain_rate == 8) {
         Console.WriteLine($"{enemy_name} tog fram sin hårtork och blåste dig i ansiktet tills du fick ett brännmärke och ramlade omkull.");
         decrease_my_hp(5);
+        body_harm.Add("ansikte - hårtork");
     } else if (my_pain_rate <= 10) {
-        System.Console.WriteLine($"{enemy_name} brottade ner dig på marken och högg dig med en smörkniv.");
-        decrease_my_hp(3);
+        Console.WriteLine($"{enemy_name} brottade ner dig på marken och högg dig med en smörkniv.");
+        decrease_my_hp(2);
     } else if (my_pain_rate == 11) {
-        System.Console.WriteLine($"{enemy_name} lekte sur tant och slog till dig med sin handväska.");
+        Console.WriteLine($"{enemy_name} lekte sur tant och slog till dig med sin handväska.");
         decrease_my_hp(1);
+    } else if (my_pain_rate == 12) {
+        Console.WriteLine($"Du svimmade. {enemy_name} hade slagit dig så hårt att du föll omkull och svimmade. {enemy_name} trodde därmed att du var död så hen gjorde ingen mer skada på dig.");
+        load_delay();
+        Console.WriteLine($"Du öppnade ögonen och såg hur du på något sätt är i din säng, vem hade burit dig hit? Kan det ha varit {enemy_name} som ångrade sig? Nej, det skulle aldrig ske. Du reste dig upp och kollade på klockan.");
+        load_delay();
+        Console.WriteLine("Du försöker fokusera dina ögon för att läsa tiden på mobilskärmen");
+        load_delay();
+        Console.WriteLine($"Måndag 05:47!");
+        decrease_my_hp(1);
+        load_delay();
+        Console.WriteLine("Fan fan fan! Helvetes! - ropade du ut i din ensamma lägenhet.");
+        load_delay();
+        Console.WriteLine("Måndag morgon var det värsta du visste! Nu skulle du behöva åka in till jobbet och umgås med dina dumma kollegor!");
+        load_delay();
+        if (body_harm.Contains("arm")) {
+            Console.WriteLine($"Du fick syn på ditt köttsår på armen, hade {enemy_name} gjort detta?");
+            load_delay();
+        } else if (body_harm.Contains("mage")) {
+            Console.WriteLine($"Du tittade ner och fick syn på din mage - den var helt blodig! hade {enemy_name} gjort detta? Eller hade jag snubblat? Vad hände?");
+            load_delay();
+        }
+        Console.WriteLine("Du reste dig från sängen och gick till badrummet för att borsta tänder.");
+        if (body_harm.Contains("ansikte - yxa")) {
+            Console.WriteLine("När du kom in i badrummet fick du syn på spegeln, herregud! Hur såg du ut? Du var alldeles röd och blodig i ansiktet! Det var nästan som att någon slagit dig med en yxa!");
+            load_delay();
+            Console.WriteLine("Du ringde direkt sjukhuset och du fick en akuttid.");
+        } else {
+            if (body_harm.Contains("ansikte - hårtork")) {
+                Console.WriteLine("När du kom in i badrummet kollade du i spegeln, vad röd du var! Du hade brännmärken över hela ansiktet! Vad hade hänt?");
+            }
+            Console.WriteLine("Du borstade tänderna och gick ut i hallen.");
+        }
+        // åk hemifrån, sjukhus eller jobb.
     }
     if (enemy_hp <= 0 | my_hp <= 0) {
         if (enemy_hp <= 0 && my_hp > 0) {
