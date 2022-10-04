@@ -13,8 +13,9 @@ while (enemy_name.Length < 2 || enemy_name.Length >= 20) {
     enemy_name = Console.ReadLine();
 }
 
-
+loop:
 while (true) {
+    if (my_hp <= 0 | enemy_hp <= 0) {break;}
     Console.ForegroundColor = ConsoleColor.DarkYellow;
     Console.WriteLine($"Du har {my_hp} hp.");
     Console.WriteLine($"{enemy_name} har {enemy_hp} hp.");
@@ -95,8 +96,9 @@ while (true) {
     }
 
     load_delay();
+    if (enemy_hp <= 0) {break;} // fiende ska inte attackera om hen precis dog
 
-    int my_pain_rate = random.Next(12, 13);
+    int my_pain_rate = random.Next(0, 13);
     if (my_pain_rate == 0) {
         Console.WriteLine($"{enemy_name} missade och högg i marken!");
         Console.WriteLine("Du tog ingen skada.");
@@ -149,14 +151,34 @@ while (true) {
         if (body_harm.Contains("ansikte - yxa")) {
             Console.WriteLine("När du kom in i badrummet fick du syn på spegeln, herregud! Hur såg du ut? Du var alldeles röd och blodig i ansiktet! Det var nästan som att någon slagit dig med en yxa!");
             load_delay();
+            Console.WriteLine("Spegeln sprack, du var för ful för den.");
+            load_delay();
             Console.WriteLine("Du ringde direkt sjukhuset och du fick en akuttid.");
         } else {
             if (body_harm.Contains("ansikte - hårtork")) {
                 Console.WriteLine("När du kom in i badrummet kollade du i spegeln, vad röd du var! Du hade brännmärken över hela ansiktet! Vad hade hänt?");
+                load_delay();
             }
             Console.WriteLine("Du borstade tänderna och gick ut i hallen.");
         }
-        // åk hemifrån, sjukhus eller jobb.
+        load_delay();
+        Console.WriteLine("Du tog på dig ytterkläderna och gick utanför dörren. Som tur var bodde du nära din busshållplats.");
+        if (my_hp <= 5) {
+            Console.WriteLine("Du gick mot busshållplatsen, men du var för svag. Du kände hur benen vek sig och du föll ihop på gatan");
+            load_delay();
+            Console.WriteLine("Du kände hur dina ögonlock ville stängas, men du försökte kisa mot ljuset.");
+            load_delay();
+            Console.WriteLine("Nu såg du det, ljuset ifrån 2 lampor rusande emot dig. Såg inte chauffören dig?");
+            load_delay();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine("Du blev påkörd.");
+            Console.ResetColor();
+            my_hp = 0;
+        } else {
+            load_delay();
+            Console.WriteLine($"Du började närma dig busshållplatsen, men vad var det du såg? {enemy_name}! Hen väntade också på bussen!");
+            Console.WriteLine($"{enemy_name} fick syn på dig nu, fighten var igång igen.");
+        }
     }
     if (enemy_hp <= 0 | my_hp <= 0) {
         if (enemy_hp <= 0 && my_hp > 0) {
@@ -167,17 +189,6 @@ while (true) {
             Console.WriteLine($"Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning mellan dig och {enemy_name} när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu... Du kollade {enemy_name} i ögonen medan hen tog sitt sista andetag. Det var bara en tidsfråga tills samma sak skulle hända dig... när som helst nu...");
         }
 
-        Console.ForegroundColor = ConsoleColor.Magenta;
-        Console.WriteLine("\n\nVill du spela igen?");
-        Console.ResetColor();
-        if (Console.ReadLine().ToLower() == "ja") {
-            Console.Clear();
-            enemy_hp = 30;
-            my_hp = 30;
-            goto namnge;
-        } else {
-            Environment.Exit(0);
-        }
     } else {
         Console.BackgroundColor = ConsoleColor.DarkGray;
         Console.WriteLine("Tryck enter för att fortsätta till nästa runda");
@@ -186,6 +197,20 @@ while (true) {
     }
 }
 
+game_done:
+Console.ForegroundColor = ConsoleColor.Magenta;
+Console.WriteLine("\n\nVill du spela igen?");
+Console.ResetColor();
+if (Console.ReadLine().ToLower() == "ja") {
+    Console.Clear();
+    enemy_hp = 30;
+    my_hp = 30;
+    body_harm.Clear();
+    goto namnge;
+    goto loop;
+} else {
+    Environment.Exit(0);
+}
 
 
 void decrease_my_hp(int amount) {
