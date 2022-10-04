@@ -38,7 +38,6 @@ while (true) {
         }
     }
     
-    load_delay();
 
     if (my_chosen_weapon == 1) {
         Console.WriteLine($"Du slog till {enemy_name} lite patetiskt på kinden med höger knytnäve.");
@@ -52,6 +51,10 @@ while (true) {
             decrease_enemy_hp(5);
         } else if (axe_hurt_rate == 2) {
             Console.WriteLine($"Attans! {enemy_name} tog fram sin sköld och dämpade ditt slag. Varken du eller {enemy_name} gjorde någon skada.");
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("Tryck enter för att fortsätta till nästa runda");
+            Console.ResetColor();
+            Console.ReadLine();
             continue;
         } else {
             Console.WriteLine($"Du högg {enemy_name} i armen med yxan.");
@@ -63,12 +66,20 @@ while (true) {
             Console.WriteLine($"Vem fan fightas med en hammare? {enemy_name} blev förvirrad och tappade sitt vapen. Du drog ett hårt slag.");
             Console.WriteLine($"{enemy_name} gjorde ingen skada på dig.");
             decrease_enemy_hp(2);
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("Tryck enter för att fortsätta till nästa runda");
+            Console.ResetColor();
+            Console.ReadLine();
             continue;
         } else if (hammer_hurt_rate == 1) {
             Console.WriteLine($"Du slog {enemy_name} på lilltån och hen ramlade omkull och tappade sitt vapen. Dessvärre flög hens yxa mot dig och träffade dig i ansiktet.");
             decrease_my_hp(4);
             decrease_enemy_hp(3);
             body_harm.Add("ansikte - yxa");
+            Console.BackgroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("Tryck enter för att fortsätta till nästa runda");
+            Console.ResetColor();
+            Console.ReadLine();
             continue;
         } 
         else {
