@@ -225,6 +225,10 @@ if (Console.ReadLine().ToLower() == "ja") {
 
 
 void decrease_my_hp(int amount) {
+    if (boosted_attack) {
+        amount += 1;
+        boosted_attack = false;
+    }
     my_hp -= amount;
     Console.ForegroundColor = ConsoleColor.Red;
     System.Console.WriteLine($"Du tappade {amount} hp.");
@@ -232,10 +236,6 @@ void decrease_my_hp(int amount) {
 }
 
 void decrease_enemy_hp(int amount) {
-    if (boosted_attack) {
-        amount += 1;
-        boosted_attack = false;
-    }
     enemy_hp -= amount;
     Console.ForegroundColor = ConsoleColor.Green;
     System.Console.WriteLine($"{enemy_name} tappade {amount} hp.");
