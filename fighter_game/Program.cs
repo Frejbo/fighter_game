@@ -1,7 +1,9 @@
 ﻿int enemy_hp = 30;
 int my_hp = 30;
 bool boosted_attack = false;
+Random random = new Random();
 
+namnge:
 Console.WriteLine("Vad heter din fiende?");
 string enemy_name = Console.ReadLine();
 while (enemy_name.Length < 2 || enemy_name.Length >= 20) {
@@ -9,15 +11,12 @@ while (enemy_name.Length < 2 || enemy_name.Length >= 20) {
     enemy_name = Console.ReadLine();
 }
 
-Random random = new Random();
 
-
-while (enemy_hp > 0 && my_hp > 0) {
+while (true) {
     Console.ForegroundColor = ConsoleColor.DarkYellow;
-    Console.WriteLine($"\nDu har {my_hp} hp.");
+    Console.WriteLine($"Du har {my_hp} hp.");
     Console.WriteLine($"{enemy_name} har {enemy_hp} hp.");
     Console.ResetColor();
-    Console.ReadLine();
     
     Console.WriteLine("Välj ditt vapen:");
     int my_chosen_weapon = 0;
@@ -36,7 +35,7 @@ while (enemy_hp > 0 && my_hp > 0) {
         }
     }
     
-    Console.WriteLine();
+    load_delay();
 
     if (my_chosen_weapon == 1) {
         Console.WriteLine($"Du slog till {enemy_name} lite patetiskt på kinden med höger knytnäve.");
@@ -45,10 +44,10 @@ while (enemy_hp > 0 && my_hp > 0) {
         int axe_hurt_rate = random.Next(0, 6);
         if (axe_hurt_rate == 0) {
             Console.WriteLine($"Du missade! {enemy_name} tog 0 i skada.");
-        } else if (axe_hurt_rate == 4) {
+        } else if (axe_hurt_rate == 1) {
             Console.WriteLine($"Du drog ett skitbra drag och träffade {enemy_name}'s hals!");
             decrease_enemy_hp(5);
-        } else if (axe_hurt_rate == 5) {
+        } else if (axe_hurt_rate == 2) {
             Console.WriteLine($"Attans! {enemy_name} tog fram sin sköld och dämpade ditt slag. Varken du eller {enemy_name} gjorde någon skada.");
             continue;
         } else {
@@ -63,7 +62,7 @@ while (enemy_hp > 0 && my_hp > 0) {
             decrease_enemy_hp(2);
             continue;
         } else if (hammer_hurt_rate == 1) {
-            Console.WriteLine($"Du slog {enemy_name} på lilltån och hen ramlade omkull och tappade sitt vapen. Dessvärre flög hans yxa mot dig och träffade dig i ansiktet.");
+            Console.WriteLine($"Du slog {enemy_name} på lilltån och hen ramlade omkull och tappade sitt vapen. Dessvärre flög hens yxa mot dig och träffade dig i ansiktet.");
             decrease_my_hp(4);
             decrease_enemy_hp(3);
             continue;
@@ -92,6 +91,8 @@ while (enemy_hp > 0 && my_hp > 0) {
         }
     }
 
+    load_delay();
+
     int my_pain_rate = random.Next(0, 12);
     if (my_pain_rate == 0) {
         Console.WriteLine($"{enemy_name} missade och högg i marken!");
@@ -118,15 +119,35 @@ while (enemy_hp > 0 && my_hp > 0) {
         System.Console.WriteLine($"{enemy_name} lekte sur tant och slog till dig med sin handväska.");
         decrease_my_hp(1);
     }
+    if (enemy_hp <= 0 | my_hp <= 0) {
+        if (enemy_hp <= 0 && my_hp > 0) {
+            Console.WriteLine($"Du vann mot {enemy_name}!");
+        } else if (my_hp <= 0 && enemy_hp > 0) {
+            Console.WriteLine($"Du föll ihop på marken och förblödde plågsamt. {enemy_name} vann.");
+        } else {
+            Console.WriteLine($"Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning mellan dig och {enemy_name} när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu... Du kollade {enemy_name} i ögonen medan hen tog sitt sista andetag. Det var bara en tidsfråga tills samma sak skulle hända dig... när som helst nu...");
+        }
+
+        Console.ForegroundColor = ConsoleColor.Magenta;
+        Console.WriteLine("\n\nVill du spela igen?");
+        Console.ResetColor();
+        if (Console.ReadLine().ToLower() == "ja") {
+            Console.Clear();
+            enemy_hp = 30;
+            my_hp = 30;
+            goto namnge;
+        } else {
+            Environment.Exit(0);
+        }
+    } else {
+        Console.BackgroundColor = ConsoleColor.DarkGray;
+        Console.WriteLine("Tryck enter för att fortsätta till nästa runda");
+        Console.ResetColor();
+        Console.ReadLine();
+    }
 }
 
-if (enemy_hp <= 0 && my_hp > 0) {
-    Console.WriteLine($"Du vann mot {enemy_name}!");
-} else if (my_hp <= 0 && enemy_hp > 0) {
-    Console.WriteLine($"Du föll ihop på marken och förblödde plågsamt. {enemy_name} vann.");
-} else {
-    Console.WriteLine($"Ni båda föll ihop på marken och förblödde medan ni såg varann i ögonen. Det skapades nästan en lite romantisk spänning mellan dig och {enemy_name} när ni låg där och kollade på varandra. Du kände att du ångrade allt som hänt och ville börja om som vänner, men det var försent nu... Du kollade {enemy_name} i ögonen medan hen tog sitt sista andetag. Det var bara en tidsfråga tills samma sak skulle hända dig... när som helst nu...");
-}
+
 
 void decrease_my_hp(int amount) {
     my_hp -= amount;
@@ -143,6 +164,21 @@ void decrease_enemy_hp(int amount) {
     enemy_hp -= amount;
     Console.ForegroundColor = ConsoleColor.Green;
     System.Console.WriteLine($"{enemy_name} tappade {amount} hp.");
+    Console.ResetColor();
+}
+
+void load_delay() {
+    Console.WriteLine();
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    System.Threading.Thread.Sleep(300);
+    Console.Write(".");
+    System.Threading.Thread.Sleep(300);
+    Console.Write(".");
+    System.Threading.Thread.Sleep(300);
+    Console.Write(".");
+    System.Threading.Thread.Sleep(300);
+    Console.Write("\b\b\b");
+    // Console.WriteLine();
     Console.ResetColor();
 }
 
